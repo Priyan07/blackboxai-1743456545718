@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Practice | iQuanta</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-image: url('https://images.pexels.com/photos/3495227/pexels-photo-3495227.jpeg');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+        }
+        .timer {
+            font-family: 'Courier New', monospace;
+        }
+        .section-btn {
+            transition: all 0.3s ease;
+        }
+        .section-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+        .streak-flame {
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-indigo-700 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-brain text-2xl"></i>
+                <span class="text-xl font-bold">iQuanta Practice</span>
+            </div>
+            <div class="flex items-center space-x-6">
+                <a href="#" class="hover:text-indigo-200">Home</a>
+                <a href="#" class="font-semibold border-b-2 border-white">Practice</a>
+                <a href="#" class="hover:text-indigo-200">Leaderboard</a>
+                <a href="#" class="hover:text-indigo-200">Progress</a>
+                <div class="flex items-center space-x-2">
+                    <span class="bg-indigo-800 px-3 py-1 rounded-full text-sm">Level: Pro</span>
+                    <span class="bg-yellow-500 px-3 py-1 rounded-full text-sm">Coins: 250</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <!-- Header with Timer and Streak -->
+        <div class="glass-card shadow-xl p-6 mb-8">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-3xl font-bold text-indigo-800">
+                        <i class="fas fa-stopwatch mr-2"></i>Daily Practice
+                    </h1>
+                    <p class="text-gray-600">Complete today's challenges to maintain your streak!</p>
+                </div>
+                <div class="flex items-center space-x-6">
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-indigo-700 streak-flame">
+                            <i class="fas fa-fire"></i> 7
+                        </div>
+                        <div class="text-xs text-gray-600">Day Streak</div>
+                    </div>
+                    <div class="text-center bg-indigo-100 p-3 rounded-lg">
+                        <div id="timer" class="timer text-2xl font-bold text-indigo-800">
+                            25:00
+                        </div>
+                        <div class="text-xs text-gray-600">Time Remaining</div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4">
+                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                    <div id="progress-bar" class="bg-indigo-600 h-2.5 rounded-full" style="width: 0%"></div>
+                </div>
+                <div class="flex justify-between text-xs text-gray-600 mt-1">
+                    <span>0%</span>
+                    <span>Submit available at 50%</span>
+                    <span>100%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Practice Sections -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <button id="qa-btn" class="section-btn glass-card hover:bg-indigo-600 hover:text-white px-4 py-6 rounded-xl text-center transition-all duration-300 border-2 border-indigo-100">
+                <i class="fas fa-calculator text-4xl mb-3 text-indigo-600"></i>
+                <h3 class="text-xl font-semibold">Quantitative Aptitude</h3>
+                <p class="text-sm mt-1">10 Questions</p>
+                <p class="text-sm">25 Minutes</p>
+                <div class="mt-3 text-xs bg-indigo-100 text-indigo-800 rounded-full px-2 py-1 inline-block">
+                    Current Section
+                </div>
+            </button>
+
+            <button id="lrdi-btn" class="section-btn glass-card hover:bg-indigo-500 hover:text-white px-4 py-6 rounded-xl text-center transition-all duration-300 border-2 border-indigo-100">
+                <i class="fas fa-chart-pie text-4xl mb-3 text-indigo-500"></i>
+                <h3 class="text-xl font-semibold">LRDI</h3>
+                <p class="text-sm mt-1">1 Set</p>
+                <p class="text-sm">15 Minutes</p>
+            </button>
+
+            <button id="varc-btn" class="section-btn glass-card hover:bg-indigo-400 hover:text-white px-4 py-6 rounded-xl text-center transition-all duration-300 border-2 border-indigo-100">
+                <i class="fas fa-book-reader text-4xl mb-3 text-indigo-400"></i>
+                <h3 class="text-xl font-semibold">VARC</h3>
+                <p class="text-sm mt-1">1 RC + 5 VA</p>
+                <p class="text-sm">20 Minutes</p>
+            </button>
+        </div>
+
+        <!-- QA Section Content -->
+        <div id="qa-section" class="section-content">
+            <div class="glass-card shadow-lg p-6 mb-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-semibold text-indigo-700">
+                        <i class="fas fa-calculator mr-2"></i>Quantitative Aptitude
+                    </h2>
+                    <div class="text-sm bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full">
+                        Time Left: <span class="font-mono">24:35</span>
+                    </div>
+                </div>
+                
+                <div id="qa-questions" class="space-y-6">
+                    <!-- Question 1 -->
+                    <div class="question-card bg-white p-4 rounded-lg shadow-sm border-l-4 border-indigo-500">
+                        <div class="flex justify-between items-start">
+                            <div class="font-medium">Q1. If x² + y² = 25 and xy = 12, what is the value of x + y?</div>
+                            <div class="flex space-x-2">
+                                <button class="text-xs bg-gray-100 hover:bg-gray-200 px-2 py-1 rounded">Skip</button>
+                            </div>
+                        </div>
+                        <div class="mt-3 space-y-2">
+                            <div class="flex items-center">
+                                <input type="radio" id="q1a" name="q1" class="mr-2">
+                                <label for="q1a">5</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="q1b" name="q1" class="mr-2">
+                                <label for="q1b">7</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="q1c" name="q1" class="mr-2">
+                                <label for="q1c">9</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="q1d" name="q1" class="mr-2">
+                                <label for="q1d">11</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 2 -->
+                    <div class="question-card bg-white p-4 rounded-lg shadow-sm border-l-4 border-indigo-500 mt-4">
+                        <div class="flex justify-between items-start">
+                            <div class="font-medium">Q2. A train travels 300 km in 5 hours. What is its average speed in m/s?</div>
+                            <div class="flex space-x-2">
+                                <button class="text-xs bg-gray-100 hover:bg-gray-200 px-2 py-1 rounded">Skip</button>
+                            </div>
+                        </div>
+                        <div class="mt-3 space-y-2">
+                            <div class="flex items-center">
+                                <input type="radio" id="q2a" name="q2" class="mr-2">
+                                <label for="q2a">15.5 m/s</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="q2b" name="q2" class="mr-2">
+                                <label for="q2b">16.67 m/s</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="q2c" name="q2" class="mr-2">
+                                <label for="q2c">18.2 m/s</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" id="q2d" name="q2" class="mr-2">
+                                <label for="q2d">20.1 m/s</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Additional questions would follow the same pattern -->
+                </div>
+            </div>
+        </div>
+
+        <!-- LRDI Section Content (Hidden by default) -->
+        <div id="lrdi-section" class="section-content hidden">
+            <!-- Similar structure to QA section -->
+        </div>
+
+        <!-- VARC Section Content (Hidden by default) -->
+        <div id="varc-section" class="section-content hidden">
+            <!-- Similar structure to QA section -->
+        </div>
+
+        <!-- Submit Button -->
+        <div class="flex justify-center mt-8">
+            <button id="submit-btn" disabled class="bg-gray-400 text-white px-8 py-3 rounded-lg font-medium text-lg cursor-not-allowed shadow-lg transform transition-all hover:scale-105 disabled:transform-none disabled:hover:scale-100">
+                <i class="fas fa-paper-plane mr-2"></i>Submit (available after 12:30)
+            </button>
+        </div>
+
+        <!-- Streak Warning Modal -->
+        <div id="streak-warning" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+            <div class="bg-white p-6 rounded-lg max-w-md w-full">
+                <div class="text-center">
+                    <i class="fas fa-exclamation-triangle text-yellow-500 text-4xl mb-3"></i>
+                    <h3 class="text-xl font-bold mb-2">Don't Break Your Streak!</h3>
+                    <p class="text-gray-600 mb-4">You're on a 7-day streak. Completing today's practice will earn you 50 bonus coins!</p>
+                    <div class="flex justify-center space-x-4">
+                        <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg">Continue Practice</button>
+                        <button class="border border-gray-300 px-4 py-2 rounded-lg">Take Break</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="practice.js"></script>
+</body>
+</html>
